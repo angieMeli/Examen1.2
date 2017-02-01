@@ -62,17 +62,6 @@ public class BookTypeWebservice {
         return result;
     }
     
-       @POST
-    @Path("/")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public BookType createBookType(BookType bookType) {
-
-        bookTypeDAO = new BookTypeDAOImple();
-        bookTypeService = new BookTypeServiceImpl(bookTypeDAO);
-
-        bookType = bookTypeService.save(bookType);
-
-        return bookType;
-    }
+  
+    
 }

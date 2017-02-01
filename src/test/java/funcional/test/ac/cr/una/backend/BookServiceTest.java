@@ -13,6 +13,11 @@ import ac.cr.una.backend.service.BookServiceImpl;
 import org.junit.After;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 /**
  *
@@ -26,26 +31,33 @@ public class BookServiceTest {
     public BookServiceTest() {
     }
 
-    @Test
-    public void testHibernateSaveBook() {
-        bookDAO = new BookDAOImple();
-        bookService = new BookServiceImpl(bookDAO);
-
-        book = new Book();
-
-        book.setName("maria");
-        book.setPrice(1000);
-
-        book = bookService.save(book);
-        assertNotNull(book.getIdBook());
-    }
-
-  
-
-    @After    
-    public void deleteAll() {
+    
+    @Test    
+    public void deleteALL() {
         bookDAO = new BookDAOImple();
         bookService = new BookServiceImpl(bookDAO);
     } 
     
+    
+   @Test
+    public void testSave() {
+        bookDAO = mock(BookDAOImple.class);
+        bookService = new BookServiceImpl(bookDAO);
+
+         Book book = new Book();
+        book.setName("angie");
+       
+      
+       
+        when(bookDAO.save(any(Book.class)))
+                .thenAnswer(new Answer<Book>() {
+                    @Override
+                    public Book answer(InvocationOnMock invocation) throws Throwable {
+                        Book book = (Book) invocation.getArguments()[0];
+                        book.setIdBook(1);
+                        return book;
+                    }
+                });
+    
+}
 }
